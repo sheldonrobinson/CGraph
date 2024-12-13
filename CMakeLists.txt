@@ -10,14 +10,14 @@ message("* * * * * * * * * * * * * * * * * * * * * * * * * * * * *")
 
 cmake_minimum_required(VERSION 3.5.0)
 
-project(CGraph VERSION 2.6.1)
+project(CGraph VERSION 2.6.2)
 
 # CGraph默认使用C++11版本，推荐使用C++17版本。暂不支持C++11以下版本
 set(CMAKE_CXX_STANDARD 11)
 
 option(CGRAPH_BUILD_FUNCTIONAL_TESTS "Enables builds of functional tests" OFF)
 option(CGRAPH_BUILD_PERFORMANCE_TESTS "Enables builds of performance tests" OFF)
-option(BUILD_SHARED_LIBS "Build using shared libraries" ON)
+option(BUILD_SHARED_LIBS "Build using shared libraries" OFF)
 
 # 如果开启此宏定义，则CGraph执行过程中，不会在控制台打印任何信息
 # add_definitions(-D_CGRAPH_SILENCE_)
