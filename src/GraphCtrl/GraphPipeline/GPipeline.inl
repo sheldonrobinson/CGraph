@@ -159,7 +159,6 @@ TGroup* GPipeline::createGGroup(const GElementPtrArr &elements,
     auto* group = CGRAPH_SAFE_MALLOC_COBJECT(TGroup)
     for (GElementPtr element : elements) {
         status += group->addElement(element);
-        element->belong_ = group;    // 从属于这个group的信息
     }
     CGRAPH_THROW_EXCEPTION_BY_STATUS(status)
 
@@ -217,7 +216,7 @@ GPipelinePtr GPipeline::addGDaemon(CMSec ms, Args&&... args) {
     CGRAPH_ASSERT_INIT_THROW_ERROR(false)
     CGRAPH_ASSERT_NOT_NULL_THROW_ERROR(param_manager_, daemon_manager_)
 
-    auto daemon = UAllocator::safeMallocTemplateCObject<TDaemon>(std::forward<Args &&>(args)...);
+    auto daemon = CAllocator::safeMallocTemplateCObject<TDaemon>(std::forward<Args &&>(args)...);
     daemon->setInterval(ms);
     daemon->setGParamManager(this->param_manager_);
     daemon->setGEventManager(this->event_manager_);

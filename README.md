@@ -24,7 +24,7 @@
 
 ## 一. 简介
 
-`CGraph`中文名为【色丶图】，是一套无任何第三方依赖的跨平台图流程执行框架。通过`GPipeline`(流水线)底层调度，提供了包含依赖元素依次执行、非依赖元素并发执行在 eDAG 调度功能。
+`CGraph`中文名为【色丶图】，是一套无任何第三方依赖的跨平台图流程执行框架。通过`GPipeline`(流水线)底层调度，提供了包含依赖元素依次执行、非依赖元素并发执行，支持暂停、恢复、超时设定的 `eDAG` 调度功能。
 
 使用者只需继承`GNode`(节点)类，实现子类的`run()`方法，并根据需要设定依赖关系，即可实现任务的图化执行或流水线执行。还可以通过设定各种包含多节点信息的`GGroup`(组)，自行控制图的条件判断、循环和并发执行逻辑。
 
@@ -89,6 +89,8 @@ int main() {
 
     /* 执行流图框架 */
     pipeline->process();
+
+    /* 清空流水线中所有的资源 */
     GPipelineFactory::remove(pipeline);
 
     return 0;
@@ -117,6 +119,7 @@ int main() {
 * [纯序员给你介绍图化框架的简单实现——线程池优化（五）](http://www.chunel.cn/archives/cgraph-threadpool-5-introduce)
 * [纯序员给你介绍图化框架的简单实现——线程池优化（六）](http://www.chunel.cn/archives/cgraph-threadpool-6-introduce)
 * [纯序员给你介绍图化框架的简单实现——性能优化（一）](http://www.chunel.cn/archives/cgraph-performance-1)
+* [纯序员给你介绍图化框架的简单实现——性能优化（二）](http://www.chunel.cn/archives/cgraph-performance-2)
 * [纯序员给你介绍图化框架的简单实现——距离计算](http://www.chunel.cn/archives/cgraph-distance-introduce)
   <br><br>
 * [CGraph 主打歌——《听码农的话》](http://www.chunel.cn/archives/listen-to-coder)
@@ -340,9 +343,9 @@ int main() {
 * 优化`event`(事件)机制，异步事件可以等待结束
 * 发布 [CGraph-lite](https://github.com/ChunelFeng/CGraph-lite) 项目，提供简单DAG构图和参数传递功能。接口完全兼容，可无缝切换至本项目
 
-[2024.10.27 - v2.6.2 - Chunel]
-* 优化参数互斥机制
-* 修复辅助线程异常等待问题，修改辅助线程使用场景
+[2024.11.16 - v2.6.2 - Chunel]
+* 优化参数互斥机制和获取性能
+* 修复辅助线程异常等待问题
 * 更新`tutorial`内容
 
 </details>
