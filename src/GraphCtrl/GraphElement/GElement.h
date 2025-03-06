@@ -310,10 +310,12 @@ private:
      * 设置manager信息
      * @param paramManager
      * @param eventManager
+     * @param stageManager
      * @return
      */
     virtual CStatus addManagers(GParamManagerPtr paramManager,
-                                GEventManagerPtr eventManager);
+                                GEventManagerPtr eventManager,
+                                GStageManagerPtr stageManager);
 
     /**
      * 包含切面相关功能的函数，fat取自fatjar的意思
@@ -416,13 +418,19 @@ private:
      */
     CBool isDefaultBinding() const;
 
+    /**
+     * 更新切面信息
+     * @return
+     */
+    GElement* updateAspectInfo();
+
 private:
     /** 状态相关信息 */
     CBool done_ { false };                                                    // 判定被执行结束
     CBool visible_ { true };                                                  // 判定可见的，如果被删除的话，则认为是不可见的
     CBool is_init_ { false };                                                 // 判断是否init
     GElementType element_type_ { GElementType::ELEMENT };                     // 用于区分element 内部类型
-    std::atomic<GElementState> cur_state_ { GElementState::CREATE };       // 当前执行状态
+    std::atomic<GElementState> cur_state_ { GElementState::NORMAL };          // 当前执行状态
     internal::GElementShape shape_ { internal::GElementShape::NORMAL };       // 元素位置类型
 
     /** 配置相关信息 */
@@ -442,8 +450,8 @@ private:
 
     /** 图相关信息 */
     std::atomic<CSize> left_depend_ { 0 };                                    // 当 left_depend_ 值为0的时候，即可以执行该element信息
-    USmallVector<GElement *> run_before_;                                     // 被依赖的节点（后继）
-    USmallVector<GElement *> dependence_;                                     // 依赖的节点信息（前驱）
+    USmallVector<GElement *> run_before_ {};                                  // 被依赖的节点（后继）
+    USmallVector<GElement *> dependence_ {};                                  // 依赖的节点信息（前驱）
     GElement* belong_ { nullptr };                                            // 从属的element 信息，如为nullptr，则表示从属于 pipeline
 
     /** 异步执行相关信息 */
@@ -481,6 +489,10 @@ private:
 
     CGRAPH_DECLARE_GPARAM_MANAGER_WRAPPER_WITH_MEMBER
     CGRAPH_DECLARE_GEVENT_MANAGER_WRAPPER_WITH_MEMBER
+    CGRAPH_DECLARE_GSTAGE_MANAGER_WRAPPER_WITH_MEMBER
+
+public:
+    GElement* __addGAspect_4py(GAspectPtr aspect);
 };
 
 using GElementRef = GElement &;

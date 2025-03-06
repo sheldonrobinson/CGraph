@@ -21,6 +21,7 @@
 #include "../GraphElement/GElementInclude.h"
 #include "../GraphDaemon/GDaemonInclude.h"
 #include "../GraphEvent/GEventInclude.h"
+#include "../GraphStage/GStageInclude.h"
 
 CGRAPH_NAMESPACE_BEGIN
 
@@ -322,6 +323,20 @@ public:
     GPipeline* addGEvent(const std::string& key, TParam* param = nullptr);
 
     /**
+     * 添加一个阶段
+     * @tparam TStage
+     * @tparam TParam
+     * @param key
+     * @param threshold
+     * @param param
+     * @return
+     */
+    template<typename TStage, typename TParam = GStageDefaultParam,
+            c_enable_if_t<std::is_base_of<GStage, TStage>::value, int> = 0,
+            c_enable_if_t<std::is_base_of<GStageParam, TParam>::value, int> = 0>
+    GPipeline* addGStage(const std::string& key, CInt threshold, TParam* param = nullptr);
+
+    /**
      * 设置引擎策略
      * @param type
      * @return
@@ -414,6 +429,7 @@ private:
     GParamManagerPtr param_manager_ = nullptr;                  // 参数管理类
     GDaemonManagerPtr daemon_manager_ = nullptr;                // 守护管理类
     GEventManagerPtr event_manager_ = nullptr;                  // 事件管理类
+    GStageManagerPtr stage_manager_ = nullptr;                  // 阶段管理类
 
     GSchedule schedule_;                                        // 调度管理类
     GElementRepository repository_;                             // 记录创建的所有element的仓库
@@ -421,6 +437,10 @@ private:
     friend class GPipelineFactory;
     friend class CAllocator;
     friend class GPerf;
+
+public:
+    CStatus __registerGElement_4py(GElementPtr element, const GElementPtrSet &depends,
+                                   const std::string &name, CSize loop);
 };
 
 using GPipelinePtr = GPipeline *;

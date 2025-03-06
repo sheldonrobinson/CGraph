@@ -97,6 +97,32 @@ CGRAPH_NAMESPACE_BEGIN
         return keys;                                                                    \
     }                                                                                   \
                                                                                         \
+public:                                                                                 \
+    GParamPtr __getGParam_4py(const std::string& key) {                                 \
+        return param_manager_ ? param_manager_->__get_4py(key) : nullptr;               \
+    }                                                                                   \
+                                                                                        \
+    GParamPtr __getGParamWithNoEmpty_4py(const std::string& key) {                      \
+        CGRAPH_ASSERT_NOT_NULL_THROW_ERROR(param_manager_);                             \
+        auto param = param_manager_->__get_4py(key);                                    \
+        CGRAPH_THROW_EXCEPTION_BY_CONDITION(!param, "param [" + key + "] is null");     \
+        return param;                                                                   \
+    }                                                                                   \
+                                                                                        \
+    CStatus __createGParam_4py(GParamPtr param, const std::string& key) {               \
+        CGRAPH_ASSERT_NOT_NULL(param_manager_)                                          \
+        return param_manager_->__create_4py(param, key);                                \
+    }                                                                                   \
+                                                                                        \
+    CStatus __removeGParam_4py(const std::string& key) {                                \
+        CGRAPH_ASSERT_NOT_NULL(param_manager_)                                          \
+        return param_manager_->__remove_4py(key);                                       \
+    }                                                                                   \
+                                                                                        \
+    CBool __hasGParam_4py(const std::string& key) {                                     \
+        return param_manager_ ? param_manager_->__has_4py(key) : false;                 \
+    }                                                                                   \
+                                                                                        \
 private:                                                                                \
     /**
      * 设置统一管控参数类

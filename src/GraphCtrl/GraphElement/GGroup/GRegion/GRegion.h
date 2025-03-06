@@ -39,14 +39,11 @@ protected:
     CStatus destroy() final;
 
 private:
-    CStatus addElement(GElementPtr element) final;
-
     CVoid dump(std::ostream& oss) final;
 
     CBool isSerializable() const final;
 
-    CStatus addManagers(GParamManagerPtr paramManager,
-                        GEventManagerPtr eventManager) final;
+    CStatus addElementEx(GElementPtr element) final;
 
     CBool isSeparate(GElementCPtr a, GElementCPtr b) const final;
 
